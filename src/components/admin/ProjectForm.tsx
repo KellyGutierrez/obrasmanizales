@@ -109,13 +109,21 @@ export default function ProjectForm({ initialData, onSave, onCancel }: ProjectFo
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, field: 'render' | 'current') => {
         const file = e.target.files?.[0];
         if (file) {
-            // In a real production app, we would upload to a server
-            // For this version, we use createObjectURL for instant preview
-            const url = URL.createObjectURL(file);
-            setFormData(prev => ({
-                ...prev,
-                images: { ...prev.images!, [field]: url }
-            }));
+            // Check file size (max 2MB to avoid localStorage overflow)
+            if (file.size > 2 * 1024 * 1024) {
+                showToast('La imagen no debe superar 2MB. Intenta comprimir la foto.', 'error');
+                return;
+            }
+            // Convert to Base64 so it persists in localStorage across any server/browser/reload
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64 = reader.result as string;
+                setFormData(prev => ({
+                    ...prev,
+                    images: { ...prev.images!, [field]: base64 }
+                }));
+            };
+            reader.readAsDataURL(file);
         }
     };
 
