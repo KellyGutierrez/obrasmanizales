@@ -32,6 +32,7 @@ interface ProjectContextType {
     login: (username: string, role: 'admin' | 'manager', name: string) => void;
     logout: () => void;
     addUser: (user: User) => void;
+    updateUser: (user: User) => void;
     deleteUser: (username: string) => void;
 }
 
@@ -53,9 +54,27 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         const savedUsers = localStorage.getItem('mzl_users');
         const savedUser = localStorage.getItem('mzl_current_user');
 
+        // Logic to merge or reset projects to ensure new static projects appear
         if (savedProjects) {
-            try { setAllProjects(JSON.parse(savedProjects)); } catch (e) { }
+            try {
+                const parsed = JSON.parse(savedProjects);
+                // If the count is different or missing new IDs, we might want to refresh
+                // For now, let's force a refresh of static IDs to ensure Chipre appears
+                const projectIds = parsed.map((p: Project) => p.id);
+                const missingProjects = initialProjects.filter(p => !projectIds.includes(p.id));
+
+                if (missingProjects.length > 0) {
+                    setAllProjects([...parsed, ...missingProjects]);
+                } else {
+                    setAllProjects(parsed);
+                }
+            } catch (e) {
+                setAllProjects(initialProjects);
+            }
+        } else {
+            setAllProjects(initialProjects);
         }
+
         if (savedUsers) {
             try { setAllUsers(JSON.parse(savedUsers)); } catch (e) { }
         }
@@ -105,6 +124,10 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         setAllUsers(prev => [...prev, user]);
     };
 
+    const updateUser = (updatedUser: User) => {
+        setAllUsers(prev => prev.map(u => u.username === updatedUser.username ? updatedUser : u));
+    };
+
     const deleteUser = (username: string) => {
         setAllUsers(prev => prev.filter(u => u.username !== username));
     };
@@ -122,6 +145,7 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             login,
             logout,
             addUser,
+            updateUser,
             deleteUser
         }}>
             {children}

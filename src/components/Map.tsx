@@ -9,7 +9,7 @@ import {
     useAdvancedMarkerRef
 } from '@vis.gl/react-google-maps';
 import { Project } from '@/data/projects';
-import { Settings, ExternalLink, X } from 'lucide-react';
+import { MapPin, ExternalLink, X } from 'lucide-react';
 
 interface MapProps {
     projects: Project[];
@@ -26,12 +26,14 @@ const MapMarker = ({ project, onClick }: { project: Project, onClick: (p: Projec
             title={project.name}
         >
             <div className="relative flex items-center justify-center">
-                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shadow-2xl transition-all hover:scale-110 border-2 border-white ${project.status === 'Entregado' ? 'bg-emerald-500' : 'bg-[#0747a1]'
+                <div className={`w-10 h-10 rounded-full rounded-bl-none rotate-45 flex items-center justify-center shadow-2xl transition-all hover:scale-110 border-2 border-white ${project.status === 'Entregado' ? 'bg-emerald-500' : 'bg-[#0747a1]'
                     }`}>
-                    <Settings size={18} className="text-white" />
+                    <div className="-rotate-45">
+                        <MapPin size={18} className="text-white" />
+                    </div>
                 </div>
                 {/* Glow effect */}
-                <div className={`absolute -inset-1 rounded-2xl opacity-40 blur-sm -z-10 ${project.status === 'Entregado' ? 'bg-emerald-500' : 'bg-blue-600'
+                <div className={`absolute -inset-1 rounded-full opacity-40 blur-sm -z-10 ${project.status === 'Entregado' ? 'bg-emerald-500' : 'bg-blue-600'
                     }`} />
             </div>
         </AdvancedMarker>
@@ -75,7 +77,7 @@ export default function Map({ projects }: MapProps) {
                                 {/* Header */}
                                 <div className="bg-[#0747a1] p-4 flex items-center justify-between text-white">
                                     <div className="flex items-center gap-3">
-                                        <Settings size={14} className="opacity-70" />
+                                        <MapPin size={14} className="opacity-70" />
                                         <h4 className="font-black text-[10px] uppercase tracking-tighter leading-tight max-w-[180px]">
                                             {selectedProject.name}
                                         </h4>

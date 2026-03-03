@@ -316,5 +316,77 @@ export const projects: Project[] = [
             { name: 'INICIO', progress: 100 },
             { name: 'EJECUCIÓN', progress: 40 }
         ]
+    },
+    {
+        id: '8',
+        name: 'RENOVACIÓN BULEVAR DE CHIPRE',
+        category: 'Parques',
+        commune: 'Comuna Atardeceres',
+        progress: 49,
+        budget: 20000000000,
+        executedTotal: 9800000000,
+        executedCurrentPeriod: 9800000000,
+        contractor: 'Consorcio Bulevar Mzl 2024',
+        dependency: 'Secretaría de Infraestructura',
+        jobsGenerated: 120,
+        builtArea: 15400,
+        publicSpaceArea: 15400,
+        interventionType: 'Renovación Urbana / Bulevar',
+        startDate: '2024-06-15',
+        endDate: '2026-04-30',
+        status: 'Iniciado',
+        description: 'Revitalización de la ladera occidental en Chipre. Incluye renovación de andenes, pérgolas, ciclorrutas y nuevos espacios de contemplación del atardecer.',
+        lat: 5.0748,
+        lng: -75.5295,
+        images: {
+            render: 'https://images.unsplash.com/photo-1517032174116-2da980590a3d?w=800&q=80',
+            current: 'https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?w=800&q=80',
+        },
+        gantt: [
+            { stage: 'Terracerías', estimatedStart: '2024-06-15', estimatedEnd: '2024-09-30', progress: 100 },
+            { stage: 'Andenes y Ciclorruta', estimatedStart: '2024-10-01', estimatedEnd: '2025-05-30', progress: 65 },
+            { stage: 'Pérgolas y Miradores', estimatedStart: '2025-06-01', estimatedEnd: '2025-12-31', progress: 10 }
+        ],
+        stages: [
+            { name: 'PLANEACIÓN', progress: 100 },
+            { name: 'DISEÑO', progress: 100 },
+            { name: 'EJECUCIÓN', progress: 49 }
+        ]
+    },
+    {
+        id: '9',
+        name: 'PUENTE ELEVADO DE VIDRIO EN CHIPRE',
+        category: 'Transporte',
+        commune: 'Comuna Atardeceres',
+        progress: 13,
+        budget: 15000000000,
+        executedTotal: 1950000000,
+        executedCurrentPeriod: 1950000000,
+        contractor: 'Unión Temporal Miradores Mzl',
+        dependency: 'Secretaría de Infraestructura',
+        jobsGenerated: 85,
+        builtArea: 480,
+        publicSpaceArea: 1200,
+        interventionType: 'Construcción / Estructura Especial',
+        startDate: '2025-02-01',
+        endDate: '2025-12-31',
+        status: 'Iniciado',
+        description: 'Estructura icónica de 40 metros en forma de medialuna con piso de vidrio, ubicada en el sector del Obelisco para potenciar el turismo.',
+        lat: 5.0735,
+        lng: -75.5310,
+        images: {
+            render: 'https://images.unsplash.com/photo-1563294101-5d63503a4530?w=800&q=80',
+            current: 'https://images.unsplash.com/photo-1516053331070-5591d0891461?w=800&q=80',
+        },
+        gantt: [
+            { stage: 'Estudios de Suelos', estimatedStart: '2025-01-15', estimatedEnd: '2025-02-28', progress: 100 },
+            { stage: 'Cimentación Profunda', estimatedStart: '2025-03-01', estimatedEnd: '2025-06-30', progress: 20 },
+            { stage: 'Montaje Estructura Metálica', estimatedStart: '2025-07-01', estimatedEnd: '2025-10-30', progress: 0 }
+        ],
+        stages: [
+            { name: 'ESTUDIOS Y DISEÑOS', progress: 100 },
+            { name: 'LICITACIÓN', progress: 100 },
+            { name: 'EJECUCIÓN', progress: 13 }
+        ]
     }
 ];

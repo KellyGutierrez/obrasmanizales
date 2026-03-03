@@ -68,6 +68,7 @@ export default function ProjectPage() {
     const router = useRouter();
     const { getProjectById } = useProjects();
     const [activeTab, setActiveTab] = React.useState<'details' | 'gantt' | 'stages'>('details');
+    const [isLightboxOpen, setIsLightboxOpen] = React.useState(false);
 
     const project = getProjectById(params?.id as string);
 
@@ -425,11 +426,45 @@ export default function ProjectPage() {
                                             <p className="text-xs font-medium text-white/60">Actualizado hace: 2 días</p>
                                         </div>
                                     </div>
-                                    <div className="absolute top-10 right-10 bg-white/20 backdrop-blur-xl p-4 rounded-3xl border border-white/20 hover:bg-white/30 transition cursor-pointer">
+                                    <div
+                                        onClick={() => setIsLightboxOpen(true)}
+                                        className="absolute top-10 right-10 bg-white/20 backdrop-blur-xl p-4 rounded-3xl border border-white/20 hover:bg-white/30 transition cursor-pointer z-20 group-hover:scale-110"
+                                    >
                                         <Maximize className="text-white" size={24} />
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Lightbox Modal */}
+                            <AnimatePresence>
+                                {isLightboxOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex items-center justify-center p-6 md:p-20"
+                                        onClick={() => setIsLightboxOpen(false)}
+                                    >
+                                        <button
+                                            className="absolute top-10 right-10 text-white/50 hover:text-white transition-colors"
+                                            onClick={() => setIsLightboxOpen(false)}
+                                        >
+                                            <ArrowLeft size={32} />
+                                        </button>
+                                        <motion.img
+                                            initial={{ scale: 0.9, y: 20 }}
+                                            animate={{ scale: 1, y: 0 }}
+                                            src={project.images.current}
+                                            alt={project.name}
+                                            className="max-w-full max-h-full object-contain rounded-3xl shadow-2xl border-4 border-white/10"
+                                        />
+                                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-center text-white/60">
+                                            <p className="text-sm font-black uppercase tracking-widest">{project.name}</p>
+                                            <p className="text-[10px] uppercase tracking-widest mt-2">{project.category} • {project.progress}% de Avance</p>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
 
 
                             {/* Small Delivery Summary Card */}

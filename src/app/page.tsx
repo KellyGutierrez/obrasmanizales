@@ -68,6 +68,19 @@ export default function Dashboard() {
     return { total, delivered, totalInvestment, avgProgress };
   }, [projects]);
 
+  const handleEnterDashboard = (categoryId?: string, mode?: 'map' | 'list', query?: string) => {
+    if (categoryId) {
+      setSelectedCategory(categoryId);
+    }
+    if (mode) {
+      setDisplayMode(mode);
+    }
+    if (query) {
+      setSearchQuery(query);
+    }
+    setView('dashboard');
+  };
+
   if (view === 'initial') {
     return (
       <AnimatePresence mode="wait">
@@ -78,7 +91,7 @@ export default function Dashboard() {
           exit={{ opacity: 0, scale: 1.1, filter: 'blur(20px)' }}
           transition={{ duration: 0.8, ease: 'easeInOut' }}
         >
-          <InitialView onEnterDashboard={() => setView('dashboard')} />
+          <InitialView onEnterDashboard={handleEnterDashboard} />
         </motion.div>
       </AnimatePresence>
     );
@@ -112,14 +125,14 @@ export default function Dashboard() {
         </div>
 
         <div className="flex items-center gap-8">
-          <div className="relative hidden xl:flex group">
+          <div className="relative hidden md:flex group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-hover:text-[#0747a1] transition-colors" size={18} />
             <input
               type="text"
               placeholder="Buscar obra..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-800/80 border-none rounded-xl text-xs font-bold focus:ring-4 focus:ring-blue-500/10 transition-all w-64"
+              className="pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-800/80 border-none rounded-xl text-xs font-bold focus:ring-4 focus:ring-blue-500/10 transition-all w-48 lg:w-64"
             />
           </div>
 
@@ -269,6 +282,20 @@ export default function Dashboard() {
                 exit={{ opacity: 0, y: -50 }}
                 className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-10"
               >
+                {/* Integrated Search for citizens */}
+                <div className="col-span-full mb-4">
+                  <div className="relative group">
+                    <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-hover:text-emerald-500 transition-colors" size={20} />
+                    <input
+                      type="text"
+                      placeholder="Busca por barrio, contratista o nombre de la obra..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full py-6 pl-16 pr-6 bg-white dark:bg-slate-900 rounded-[2rem] border-2 border-slate-100 dark:border-slate-800 focus:outline-none focus:border-emerald-500/50 transition-all shadow-xl text-sm font-bold"
+                    />
+                  </div>
+                </div>
+
                 {filteredProjects.map((project, i) => (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -276,9 +303,7 @@ export default function Dashboard() {
                     transition={{ delay: i * 0.05 }}
                     key={project.id}
                   >
-                    <ProjectCard
-                      project={project}
-                    />
+                    <ProjectCard project={project} />
                   </motion.div>
                 ))}
               </motion.section>
@@ -300,6 +325,6 @@ export default function Dashboard() {
         </div>
       </footer>
 
-    </div>
+    </div >
   );
 }

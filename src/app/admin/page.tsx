@@ -15,7 +15,8 @@ import {
     Users as UsersIcon,
     ShieldCheck,
     Briefcase,
-    Mail
+    Mail,
+    X
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -25,7 +26,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ConfirmationModal from '@/components/ui/ConfirmationModal';
 
 export default function AdminDashboard() {
-    const { projects, deleteProject, currentUser, logout, allUsers, deleteUser } = useProjects();
+    const { projects, allProjects, deleteProject, currentUser, logout, allUsers, deleteUser, updateUser } = useProjects();
     const { showToast } = useToast();
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState('');
@@ -33,6 +34,8 @@ export default function AdminDashboard() {
     const [isDeleting, setIsDeleting] = useState<string | null>(null);
     const [isDeletingUser, setIsDeletingUser] = useState<string | null>(null);
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+    const [editingUser, setEditingUser] = useState<any | null>(null);
+    const [userForm, setUserForm] = useState({ name: '', username: '', role: 'manager' });
 
     React.useEffect(() => {
         if (!currentUser) router.push('/login');
@@ -76,6 +79,18 @@ export default function AdminDashboard() {
             showToast('Usuario eliminado correctamente', 'success');
             setIsDeletingUser(null);
         }
+    };
+
+    const handleEditUser = (user: any) => {
+        setEditingUser(user);
+        setUserForm({ name: user.name, username: user.username, role: user.role });
+    };
+
+    const confirmUpdateUser = (e: React.FormEvent) => {
+        e.preventDefault();
+        updateUser(userForm as any);
+        showToast('Perfil actualizado correctamente', 'success');
+        setEditingUser(null);
     };
 
     const handleLogout = () => {
@@ -335,7 +350,10 @@ export default function AdminDashboard() {
                                     </div>
 
                                     <div className="flex items-center gap-3 border-t border-slate-50 dark:border-slate-800 pt-6">
-                                        <button className="flex-1 py-3 bg-slate-50 dark:bg-slate-800 text-slate-500 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-slate-100 transition-all">
+                                        <button
+                                            onClick={() => handleEditUser(user)}
+                                            className="flex-1 py-3 bg-slate-50 dark:bg-slate-800 text-slate-500 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-slate-100 transition-all"
+                                        >
                                             Editar Perfil
                                         </button>
                                         {user.username !== currentUser.username && (
@@ -401,6 +419,70 @@ export default function AdminDashboard() {
                 onCancel={() => setIsLogoutModalOpen(false)}
                 type="warning"
             />
+            {/* User Edit Modal */}
+            <AnimatePresence>
+                {editingUser && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-950/40 backdrop-blur-sm">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            className="bg-white dark:bg-slate-900 w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800"
+                        >
+                            <div className="bg-[#0747a1] p-8 text-white relative">
+                                <h3 className="text-xl font-black uppercase tracking-tighter italic">Editar Responsable</h3>
+                                <p className="text-[10px] font-black uppercase tracking-widest opacity-60 mt-1">Modificar datos institucionales</p>
+                                <button onClick={() => setEditingUser(null)} className="absolute top-8 right-8 text-white/50 hover:text-white"><X size={20} /></button>
+                            </div>
+                            <form onSubmit={confirmUpdateUser} className="p-8 space-y-6">
+                                <div className="space-y-2">
+                                    <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 pl-2">Nombre Completo</label>
+                                    <input
+                                        required
+                                        value={userForm.name}
+                                        onChange={(e) => setUserForm({ ...userForm, name: e.target.value })}
+                                        className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-800 text-xs font-bold"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 pl-2">Usuario (ID)</label>
+                                    <input
+                                        disabled
+                                        value={userForm.username}
+                                        className="w-full px-5 py-4 bg-slate-100 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 text-xs font-bold opacity-50 cursor-not-allowed"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 pl-2">Rol del Sistema</label>
+                                    <select
+                                        value={userForm.role}
+                                        onChange={(e) => setUserForm({ ...userForm, role: e.target.value as any })}
+                                        className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-800 text-xs font-bold appearance-none"
+                                    >
+                                        <option value="manager">Responsable de Obra</option>
+                                        <option value="admin">Administrador</option>
+                                    </select>
+                                </div>
+                                <div className="flex gap-4 pt-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => setEditingUser(null)}
+                                        className="flex-1 py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em]"
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="flex-1 py-4 bg-[#0747a1] text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-500/20"
+                                    >
+                                        Actualizar
+                                    </button>
+                                </div>
+                            </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
