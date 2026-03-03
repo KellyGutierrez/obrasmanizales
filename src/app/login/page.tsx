@@ -22,16 +22,16 @@ export default function LoginPage() {
 
         // Simulation
         setTimeout(() => {
-            if (user === 'admin' && pass === 'mzl2024') {
+            if (user === 'admin' && pass === 'mzl2026') {
                 login('admin', 'admin', 'Alcaldía de Manizales');
                 showToast('Bienvenido, Administrador', 'success');
                 router.push('/admin');
-            } else if (user === 'ingeniero' && pass === 'obra2024') {
+            } else if (user === 'ingeniero' && pass === 'obra2026') {
                 login('ingeniero', 'manager', 'Ing. Carlos Pérez');
                 showToast('Bienvenido, Ingeniero de Obra', 'success');
                 router.push('/admin');
             } else {
-                showToast('Credenciales incorrectas. Intenta admin/mzl2024 o ingeniero/obra2024', 'error');
+                showToast('Credenciales incorrectas', 'error');
                 setLoading(false);
             }
         }, 1200);
