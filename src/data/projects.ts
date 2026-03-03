@@ -65,8 +65,8 @@ export const projects: Project[] = [
         lat: 5.0845,
         lng: -75.5028,
         images: {
-            render: 'https://images.unsplash.com/photo-1545143333-11b2724c9d19?w=800&q=80',
-            current: 'https://images.unsplash.com/photo-1541888946425-d81bb19480c5?w=800&q=80',
+            render: 'https://picsum.photos/seed/cedros-render/800/600',
+            current: 'https://picsum.photos/seed/cedros-actual/800/600',
         },
         gantt: [
             { stage: 'Planeación', estimatedStart: '2022-10-01', estimatedEnd: '2022-12-31', realStart: '2022-10-05', realEnd: '2023-01-10', progress: 100 },
@@ -104,8 +104,8 @@ export const projects: Project[] = [
         lat: 5.0501,
         lng: -75.4920,
         images: {
-            render: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80',
-            current: 'https://images.unsplash.com/photo-1526232761682-d26e03ac148e?w=800&q=80',
+            render: 'https://picsum.photos/seed/cancha-render/800/600',
+            current: 'https://picsum.photos/seed/cancha-actual/800/600',
         },
         gantt: [
             { stage: 'Terracerías', estimatedStart: '2023-06-10', estimatedEnd: '2023-07-30', progress: 100 },
@@ -143,8 +143,8 @@ export const projects: Project[] = [
         lat: 5.0560,
         lng: -75.4850,
         images: {
-            render: 'https://images.unsplash.com/photo-1494522358652-f30e63a60317?w=800&q=80',
-            current: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80',
+            render: 'https://picsum.photos/seed/cable-render/800/600',
+            current: 'https://picsum.photos/seed/cable-actual/800/600',
         },
         gantt: [
             { stage: 'Estudios de Suelo', estimatedStart: '2024-03-01', estimatedEnd: '2024-05-30', progress: 100 },
@@ -182,8 +182,8 @@ export const projects: Project[] = [
         lat: 5.0683,
         lng: -75.5186,
         images: {
-            render: 'https://images.unsplash.com/photo-1541339907198-e08756ebafe3?w=800&q=80',
-            current: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80',
+            render: 'https://picsum.photos/seed/sanjose-render/800/600',
+            current: 'https://picsum.photos/seed/sanjose-actual/800/600',
         },
         gantt: [
             { stage: 'Planeación', estimatedStart: '2021-12-01', estimatedEnd: '2022-03-31', progress: 100 },
@@ -222,8 +222,8 @@ export const projects: Project[] = [
         lat: 5.0350,
         lng: -75.4540,
         images: {
-            render: 'https://images.unsplash.com/photo-1586773860418-d319ebb274e1?w=800&q=80',
-            current: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80',
+            render: 'https://picsum.photos/seed/hospital-render/800/600',
+            current: 'https://picsum.photos/seed/hospital-actual/800/600',
         },
         gantt: [
             { stage: 'Procesos de Compra', estimatedStart: '2024-05-01', estimatedEnd: '2024-07-30', progress: 100 },
@@ -261,8 +261,8 @@ export const projects: Project[] = [
         lat: 5.0640,
         lng: -75.4950,
         images: {
-            render: 'https://images.unsplash.com/photo-1585938389612-a552a28d6914?w=800&q=80',
-            current: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80',
+            render: 'https://picsum.photos/seed/parque-render/800/600',
+            current: 'https://picsum.photos/seed/parque-actual/800/600',
         },
         gantt: [
             { stage: 'Demoliciones', estimatedStart: '2023-11-01', estimatedEnd: '2023-12-15', progress: 100 },
@@ -300,8 +300,8 @@ export const projects: Project[] = [
         lat: 5.0680,
         lng: -75.5080,
         images: {
-            render: 'https://images.unsplash.com/photo-1503095396549-80705bc0607a?w=800&q=80',
-            current: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80',
+            render: 'https://picsum.photos/seed/teatro-render/800/600',
+            current: 'https://picsum.photos/seed/teatro-actual/800/600',
         },
         gantt: [
             { stage: 'Diagnóstico Estructural', estimatedStart: '2024-07-01', estimatedEnd: '2024-09-30', progress: 100 },
@@ -339,8 +339,8 @@ export const projects: Project[] = [
         lat: 5.0748,
         lng: -75.5295,
         images: {
-            render: 'https://images.unsplash.com/photo-1517032174116-2da980590a3d?w=800&q=80',
-            current: 'https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?w=800&q=80',
+            render: 'https://picsum.photos/seed/chipre-bulevar-render/800/600',
+            current: 'https://picsum.photos/seed/chipre-bulevar-actual/800/600',
         },
         gantt: [
             { stage: 'Terracerías', estimatedStart: '2024-06-15', estimatedEnd: '2024-09-30', progress: 100 },
@@ -375,8 +375,8 @@ export const projects: Project[] = [
         lat: 5.0735,
         lng: -75.5310,
         images: {
-            render: 'https://images.unsplash.com/photo-1563294101-5d63503a4530?w=800&q=80',
-            current: 'https://images.unsplash.com/photo-1516053331070-5591d0891461?w=800&q=80',
+            render: 'https://picsum.photos/seed/chipre-puente-render/800/600',
+            current: 'https://picsum.photos/seed/chipre-puente-actual/800/600',
         },
         gantt: [
             { stage: 'Estudios de Suelos', estimatedStart: '2025-01-15', estimatedEnd: '2025-02-28', progress: 100 },
