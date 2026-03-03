@@ -15,6 +15,10 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "Obras Manizales | Visor Estratégico",
   description: "Portal de seguimiento y transparencia de obras públicas de la ciudad de Manizales.",
+  icons: {
+    icon: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 import { ProjectProvider } from "@/context/ProjectContext";
