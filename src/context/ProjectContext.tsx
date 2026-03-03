@@ -84,15 +84,50 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         setIsInitialized(true);
     }, []);
 
-    useEffect(() => {
-        if (isInitialized) {
-            localStorage.setItem('mzl_projects', JSON.stringify(allProjects));
-            localStorage.setItem('mzl_users', JSON.stringify(allUsers));
-            if (currentUser) {
-                localStorage.setItem('mzl_current_user', JSON.stringify(currentUser));
-            } else {
-                localStorage.removeItem('mzl_current_user');
+    // Helper: safe localStorage write that handles quota errors
+    const safeSetItem = (key: string, value: string): boolean => {
+        try {
+            localStorage.setItem(key, value);
+            return true;
+        } catch (e: any) {
+            if (e.name === 'QuotaExceededError' || e.code === 22) {
+                return false;
             }
+            return false;
+        }
+    };
+
+    // Helper: strip Base64 images from projects to reduce size as fallback
+    const stripBase64Images = (projs: Project[]): Project[] => {
+        return projs.map(p => ({
+            ...p,
+            images: {
+                render: p.images.render?.startsWith('data:') ? '' : p.images.render,
+                current: p.images.current?.startsWith('data:') ? '' : p.images.current,
+            }
+        }));
+    };
+
+    useEffect(() => {
+        if (!isInitialized) return;
+
+        // Try saving full data (with images)
+        const projectsJson = JSON.stringify(allProjects);
+        const saved = safeSetItem('mzl_projects', projectsJson);
+
+        if (!saved) {
+            // If quota exceeded, save without Base64 images to prevent crash
+            const stripped = JSON.stringify(stripBase64Images(allProjects));
+            safeSetItem('mzl_projects', stripped);
+            console.warn('localStorage quota exceeded: project images were not saved. Use URL links instead of file uploads.');
+        }
+
+        safeSetItem('mzl_users', JSON.stringify(allUsers));
+
+        if (currentUser) {
+            safeSetItem('mzl_current_user', JSON.stringify(currentUser));
+        } else {
+            localStorage.removeItem('mzl_current_user');
         }
     }, [allProjects, allUsers, currentUser, isInitialized]);
 

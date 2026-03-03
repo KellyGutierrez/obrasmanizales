@@ -431,7 +431,7 @@ export default function ProjectForm({ initialData, onSave, onCancel }: ProjectFo
                         <div className="space-y-6">
                             <div className="flex items-center justify-between pl-4">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Imagen Principal / Render</label>
-                                <span className="text-[10px] font-bold text-blue-500 uppercase">Subir o Pegar URL</span>
+                                <span className="text-[10px] font-bold text-emerald-500 uppercase">URL recomendado • o Subir (&lt;2MB)</span>
                             </div>
 
                             <div className="flex gap-4">
@@ -485,7 +485,7 @@ export default function ProjectForm({ initialData, onSave, onCancel }: ProjectFo
                         <div className="space-y-6">
                             <div className="flex items-center justify-between pl-4">
                                 <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Imagen Estado Actual</label>
-                                <span className="text-[10px] font-bold text-blue-500 uppercase">Subir o Pegar URL</span>
+                                <span className="text-[10px] font-bold text-emerald-500 uppercase">URL recomendado • o Subir (&lt;2MB)</span>
                             </div>
 
                             <div className="flex gap-4">
