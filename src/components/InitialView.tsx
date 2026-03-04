@@ -66,24 +66,8 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
                 </div>
             </div>
 
-            {/* Floating Top Brand & Access */}
-            <div className="absolute top-10 left-10 right-10 flex justify-between items-start z-[50]">
-                {/* Brand Header */}
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center gap-6 bg-white/5 backdrop-blur-xl px-8 py-5 rounded-[2rem] border border-white/10"
-                >
-                    <div className="w-24 h-24 bg-white rounded-2xl p-2 flex items-center justify-center shadow-2xl">
-                        <img src="/favicon.png" alt="Escudo Manizales" className="w-full h-full object-contain" />
-                    </div>
-                    <div className="hidden sm:block">
-                        <p className="text-[12px] font-black uppercase tracking-tighter text-white/50 leading-none mb-1">Alcaldía de</p>
-                        <p className="text-[24px] font-black uppercase tracking-tighter text-white leading-tight">Manizales</p>
-                    </div>
-                </motion.div>
-
-                {/* Login Access */}
+            {/* Floating Top Access */}
+            <div className="absolute top-10 right-10 z-[50]">
                 <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -93,23 +77,35 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
                         href="/login"
                         className="flex items-center gap-3 bg-white/10 backdrop-blur-xl px-6 py-3 rounded-2xl border border-white/20 hover:bg-white/20 transition-all group"
                     >
-                        <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center group-hover:bg-white group-hover:text-[#0747a1] transition-all">
-                            <User size={20} />
+                        <div className="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center group-hover:bg-white group-hover:text-[#0747a1] transition-all">
+                            <User size={16} />
                         </div>
-                        <div>
-                            <p className="text-[9px] font-black uppercase tracking-widest opacity-60 leading-none mb-1">Portal Oficial</p>
-                            <p className="text-[11px] font-black uppercase tracking-widest">Acceso Institucional</p>
-                        </div>
+                        <p className="text-[10px] font-black uppercase tracking-widest">Acceso</p>
                     </Link>
                 </motion.div>
             </div>
 
-            {/* Header Blocks - Adjusted Position */}
+            {/* Central Branding Section */}
             <motion.div
-                initial={{ y: -50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex flex-col items-center mt-12 mb-10 z-10"
+            >
+                <div className="w-28 h-28 bg-white rounded-[2rem] p-3 flex items-center justify-center shadow-[0_20px_40px_rgba(255,255,255,0.05)] mb-6 border border-white/10">
+                    <img src="/favicon.png" alt="Escudo Manizales" className="w-full h-full object-contain" />
+                </div>
+                <div className="text-center space-y-1">
+                    <p className="text-[12px] font-black uppercase tracking-[0.6em] text-white/40">Alcaldía de Manizales</p>
+                    <div className="w-12 h-1 bg-yellow-500 mx-auto rounded-full" />
+                </div>
+            </motion.div>
+
+            {/* Header Blocks */}
+            <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.8, ease: 'circOut' }}
-                className="flex mt-48 mb-12 shadow-[0_20px_40px_rgba(0,0,0,0.5)] rounded-[1.5rem] overflow-hidden border-2 border-white/10 z-10"
+                className="flex mb-16 shadow-[0_25px_50px_rgba(0,0,0,0.6)] rounded-[2rem] overflow-hidden border-2 border-white/10 z-10 scale-110 md:scale-125"
             >
                 <div className="bg-[#0747a1] px-10 py-5">
                     <h1 className="text-2xl md:text-4xl font-black tracking-tighter uppercase italic">Proyectos</h1>
