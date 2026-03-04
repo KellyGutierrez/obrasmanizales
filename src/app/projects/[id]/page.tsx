@@ -12,6 +12,8 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 const STAGE_COLORS = {
     'PLANEACIÓN (MGA)': '#0747a1',
@@ -72,6 +74,94 @@ export default function ProjectPage() {
 
     const project = getProjectById(params?.id as string);
 
+    const handleDownloadPDF = () => {
+        if (!project) return;
+
+        const doc = new jsPDF();
+        const pageWidth = doc.internal.pageSize.getWidth();
+
+        // 1. Header (Institutional)
+        doc.setFillColor(7, 71, 161); // #0747a1
+        doc.rect(0, 0, pageWidth, 40, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(22);
+        doc.setFont('helvetica', 'bold');
+        doc.text('ALCALDÍA DE MANIZALES', 15, 20);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text('PORTAL OFICIAL DE OBRAS ESTRATÉGICAS', 15, 28);
+        doc.text(`Fecha de Reporte: ${format(new Date(), 'dd/MM/yyyy HH:mm')}`, pageWidth - 15, 28, { align: 'right' });
+
+        // 2. Project Title
+        doc.setTextColor(33, 37, 41);
+        doc.setFontSize(18);
+        doc.setFont('helvetica', 'bold');
+        doc.text(project.name.toUpperCase(), 15, 55);
+
+        // 3. Project Identity Section
+        doc.setFontSize(12);
+        doc.text('RESUMEN DE IDENTIDAD', 15, 70);
+        autoTable(doc, {
+            startY: 75,
+            head: [['Categoría', 'Comuna', 'Estado', 'Progreso']],
+            body: [[
+                project.category,
+                project.commune,
+                project.status,
+                `${project.progress}%`
+            ]],
+            theme: 'striped',
+            headStyles: { fillColor: [7, 71, 161], textColor: [255, 255, 255] }
+        });
+
+        // 4. Financial Data
+        doc.text('DESEMPEÑO FINANCIERO', 15, (doc as any).lastAutoTable.finalY + 15);
+        autoTable(doc, {
+            startY: (doc as any).lastAutoTable.finalY + 20,
+            body: [
+                ['Presupuesto Inicial', `$${(project.budget / 1000000).toFixed(2)} Millones`],
+                ['Ejecutado Total', `$${(project.executedTotal / 1000000).toFixed(2)} Millones`],
+                ['Ejecutado Vigencia', `$${(project.executedCurrentPeriod / 1000000).toFixed(2)} Millones`],
+            ],
+            theme: 'grid',
+            styles: { fontSize: 10 },
+            columnStyles: { 0: { fontStyle: 'bold', cellWidth: 50 } }
+        });
+
+        // 5. Technical Details
+        doc.text('FICHA TÉCNICA', 15, (doc as any).lastAutoTable.finalY + 15);
+        autoTable(doc, {
+            startY: (doc as any).lastAutoTable.finalY + 20,
+            body: [
+                ['Contratista', project.contractor],
+                ['Dependencia Líder', project.dependency],
+                ['Empleos Generados', project.jobsGenerated.toString()],
+                ['Área Construida', `${project.builtArea} m2`],
+                ['Tipo de Intervención', project.interventionType],
+                ['Inicio de Obra', project.startDate],
+                ['Fin Estimado', project.endDate],
+            ],
+            theme: 'plain',
+            styles: { fontSize: 10 },
+            columnStyles: { 0: { fontStyle: 'bold', cellWidth: 50 } }
+        });
+
+        // 6. Description
+        const descY = (doc as any).lastAutoTable.finalY + 15;
+        doc.text('DESCRIPCIÓN DEL PROYECTO', 15, descY);
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'italic');
+        const splitDesc = doc.splitTextToSize(project.description, pageWidth - 30);
+        doc.text(splitDesc, 15, descY + 10);
+
+        // Footer on PDF
+        doc.setFontSize(8);
+        doc.setTextColor(150);
+        doc.text('Este es un documento oficial generado por el Visor Estratégico de Obras de Manizales.', pageWidth / 2, 285, { align: 'center' });
+
+        doc.save(`Reporte_Obra_Manizales_${project.id}.pdf`);
+    };
+
     if (!project) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-slate-50">
@@ -121,7 +211,10 @@ export default function ProjectPage() {
                         <button className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl transition font-black text-xs uppercase tracking-widest border border-white/10">
                             <Share2 size={16} /> Compartir
                         </button>
-                        <button className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl transition font-black text-xs uppercase tracking-widest border border-white/10">
+                        <button
+                            onClick={handleDownloadPDF}
+                            className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl transition font-black text-xs uppercase tracking-widest border border-white/10"
+                        >
                             <Download size={16} /> Reporte PDF
                         </button>
                     </div>
@@ -504,7 +597,12 @@ export default function ProjectPage() {
                     </div>
                     <div className="flex gap-4">
                         <button className="px-8 py-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-[1.5rem] font-black text-xs uppercase tracking-widest hover:bg-slate-200 transition">Solicitar Información</button>
-                        <button className="px-8 py-4 bg-[#0747a1] text-white rounded-[1.5rem] font-black text-xs uppercase tracking-widest hover:bg-blue-800 transition shadow-xl shadow-blue-500/20">Descargar Ficha Completa</button>
+                        <button
+                            onClick={handleDownloadPDF}
+                            className="px-8 py-4 bg-[#0747a1] text-white rounded-[1.5rem] font-black text-xs uppercase tracking-widest hover:bg-blue-800 transition shadow-xl shadow-blue-500/20"
+                        >
+                            Descargar Ficha Completa
+                        </button>
                     </div>
                 </div>
             </footer>
