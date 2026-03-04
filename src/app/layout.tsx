@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
+import { ProjectProvider } from "@/context/ProjectContext";
+import { ToastProvider } from "@/context/ToastContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -16,13 +18,13 @@ export const metadata: Metadata = {
   title: "Obras Manizales | Visor Estratégico",
   description: "Portal de seguimiento y transparencia de obras públicas de la ciudad de Manizales.",
   icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
+    icon: [
+      { url: '/favicon.png', type: 'image/png' },
+    ],
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
   },
 };
-
-import { ProjectProvider } from "@/context/ProjectContext";
-import { ToastProvider } from "@/context/ToastContext";
 
 export default function RootLayout({
   children,
@@ -43,4 +45,3 @@ export default function RootLayout({
     </html>
   );
 }
-
