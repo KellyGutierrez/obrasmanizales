@@ -72,16 +72,16 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center gap-4 group cursor-default"
+                    className="flex items-center gap-5 group cursor-default"
                 >
-                    <div className="w-14 h-14 bg-white rounded-2xl p-1.5 flex items-center justify-center shadow-xl border border-white/10 transition-transform group-hover:scale-105">
+                    <div className="w-16 h-16 bg-white rounded-2xl p-2 flex items-center justify-center shadow-xl border border-white/10 transition-transform group-hover:scale-105">
                         <img src="/favicon.png" alt="Escudo Manizales" className="w-full h-full object-contain" />
                     </div>
-                    <div className="flex flex-col">
-                        <p className="text-sm md:text-xl font-black uppercase tracking-tighter text-white leading-none italic">
+                    <div className="flex flex-col justify-center">
+                        <p className="text-base md:text-2xl font-black uppercase tracking-tighter text-white leading-[0.8] italic">
                             Alcaldía de Manizales
                         </p>
-                        <p className="text-[7px] font-bold uppercase tracking-[0.4em] text-white/30 truncate mt-1">Portal Oficial de Obras Estratégicas</p>
+                        <p className="text-[8px] font-bold uppercase tracking-[0.4em] text-white/30 mt-2">Portal Oficial de Obras Estratégicas</p>
                     </div>
                 </motion.div>
 
