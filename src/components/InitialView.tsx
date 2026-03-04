@@ -67,19 +67,19 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
             </div>
 
             {/* Floating Top Brand & Access */}
-            <div className="absolute top-8 left-8 right-8 flex justify-between items-start z-[50]">
+            <div className="absolute top-10 left-10 right-10 flex justify-between items-start z-[50]">
                 {/* Brand Header */}
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center gap-4 bg-white/5 backdrop-blur-xl px-5 py-3 rounded-2xl border border-white/10"
+                    className="flex items-center gap-6 bg-white/5 backdrop-blur-xl px-8 py-5 rounded-[2rem] border border-white/10"
                 >
-                    <div className="w-12 h-12 bg-white rounded-xl p-1 flex items-center justify-center shadow-lg">
+                    <div className="w-24 h-24 bg-white rounded-2xl p-2 flex items-center justify-center shadow-2xl">
                         <img src="/favicon.png" alt="Escudo Manizales" className="w-full h-full object-contain" />
                     </div>
                     <div className="hidden sm:block">
-                        <p className="text-[10px] font-black uppercase tracking-tighter text-white leading-none">Alcaldía de</p>
-                        <p className="text-[14px] font-black uppercase tracking-tighter text-white leading-tight">Manizales</p>
+                        <p className="text-[12px] font-black uppercase tracking-tighter text-white/50 leading-none mb-1">Alcaldía de</p>
+                        <p className="text-[24px] font-black uppercase tracking-tighter text-white leading-tight">Manizales</p>
                     </div>
                 </motion.div>
 
@@ -93,23 +93,23 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
                         href="/login"
                         className="flex items-center gap-3 bg-white/10 backdrop-blur-xl px-6 py-3 rounded-2xl border border-white/20 hover:bg-white/20 transition-all group"
                     >
-                        <div className="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center group-hover:bg-white group-hover:text-[#0747a1] transition-all">
-                            <User size={18} />
+                        <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center group-hover:bg-white group-hover:text-[#0747a1] transition-all">
+                            <User size={20} />
                         </div>
                         <div>
-                            <p className="text-[8px] font-black uppercase tracking-widest opacity-60 leading-none mb-1">Portal Oficial</p>
-                            <p className="text-[10px] font-black uppercase tracking-widest">Acceso Institucional</p>
+                            <p className="text-[9px] font-black uppercase tracking-widest opacity-60 leading-none mb-1">Portal Oficial</p>
+                            <p className="text-[11px] font-black uppercase tracking-widest">Acceso Institucional</p>
                         </div>
                     </Link>
                 </motion.div>
             </div>
 
-            {/* Header Blocks - Balanced Size */}
+            {/* Header Blocks - Adjusted Position */}
             <motion.div
                 initial={{ y: -50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, ease: 'circOut' }}
-                className="flex mb-12 shadow-[0_20px_40px_rgba(0,0,0,0.5)] rounded-[1.5rem] overflow-hidden border-2 border-white/10 z-10"
+                className="flex mt-48 mb-12 shadow-[0_20px_40px_rgba(0,0,0,0.5)] rounded-[1.5rem] overflow-hidden border-2 border-white/10 z-10"
             >
                 <div className="bg-[#0747a1] px-10 py-5">
                     <h1 className="text-2xl md:text-4xl font-black tracking-tighter uppercase italic">Proyectos</h1>
