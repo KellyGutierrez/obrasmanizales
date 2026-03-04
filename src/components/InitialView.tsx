@@ -66,51 +66,48 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
                 </div>
             </div>
 
-            {/* Floating Top Access */}
-            <div className="absolute top-10 right-10 z-[50]">
+            {/* Top Navigation & Brand Header */}
+            <div className="w-full max-w-7xl flex justify-between items-center z-[50] mb-12">
+                {/* Branding */}
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex items-center gap-4 group cursor-default"
+                >
+                    <div className="w-14 h-14 bg-white rounded-2xl p-1.5 flex items-center justify-center shadow-xl border border-white/10 transition-transform group-hover:scale-105">
+                        <img src="/favicon.png" alt="Escudo Manizales" className="w-full h-full object-contain" />
+                    </div>
+                    <div className="flex flex-col">
+                        <p className="text-sm md:text-xl font-black uppercase tracking-tighter text-white leading-none italic">
+                            Alcaldía de Manizales
+                        </p>
+                        <p className="text-[7px] font-bold uppercase tracking-[0.4em] text-white/30 truncate mt-1">Portal Oficial de Obras Estratégicas</p>
+                    </div>
+                </motion.div>
+
+                {/* Login Access */}
                 <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 }}
                 >
                     <Link
                         href="/login"
-                        className="flex items-center gap-3 bg-white/10 backdrop-blur-xl px-6 py-3 rounded-2xl border border-white/20 hover:bg-white/20 transition-all group"
+                        className="flex items-center gap-3 bg-white/5 backdrop-blur-xl px-5 py-2.5 rounded-2xl border border-white/10 hover:bg-white/15 transition-all group"
                     >
-                        <div className="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center group-hover:bg-white group-hover:text-[#0747a1] transition-all">
-                            <User size={16} />
+                        <div className="w-7 h-7 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white group-hover:text-[#0747a1] transition-all">
+                            <User size={14} />
                         </div>
-                        <p className="text-[10px] font-black uppercase tracking-widest">Acceso</p>
+                        <p className="text-[9px] font-black uppercase tracking-widest">Acceso</p>
                     </Link>
                 </motion.div>
             </div>
 
-            {/* Branding Header Section */}
+            {/* Header Blocks - Compacted spacing */}
             <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="w-full max-w-7xl flex items-center gap-6 mt-12 mb-12 z-10 px-6 md:px-12"
-            >
-                <div className="w-20 h-20 bg-white rounded-2xl p-2 flex items-center justify-center shadow-2xl border border-white/10 shrink-0">
-                    <img src="/favicon.png" alt="Escudo Manizales" className="w-full h-full object-contain" />
-                </div>
-                <div className="flex flex-col gap-1.5 overflow-hidden">
-                    <p className="text-[18px] md:text-[28px] font-black uppercase tracking-tighter text-white whitespace-nowrap leading-none italic">
-                        Alcaldía de Manizales
-                    </p>
-                    <div className="flex gap-1 items-center">
-                        <div className="w-12 h-1 bg-yellow-500 rounded-full" />
-                        <p className="text-[8px] font-bold uppercase tracking-[0.3em] text-white/30 whitespace-nowrap">Portal Oficial de Obras Estratégicas</p>
-                    </div>
-                </div>
-            </motion.div>
-
-            {/* Header Blocks */}
-            <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: 'circOut' }}
-                className="flex mb-16 shadow-[0_25px_50px_rgba(0,0,0,0.6)] rounded-[2rem] overflow-hidden border-2 border-white/10 z-10 scale-110 md:scale-125"
+                className="flex mb-12 shadow-[0_25px_50px_rgba(0,0,0,0.6)] rounded-[2rem] overflow-hidden border-2 border-white/10 z-10"
             >
                 <div className="bg-[#0747a1] px-10 py-5">
                     <h1 className="text-2xl md:text-4xl font-black tracking-tighter uppercase italic">Proyectos</h1>
