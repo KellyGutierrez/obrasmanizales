@@ -196,8 +196,10 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
             {/* Footer Version */}
             <div className="mt-16 py-10 flex flex-col items-center gap-3 opacity-30 relative z-10">
                 <div className="flex items-center gap-4">
-                    <img src="/logo_alcaldia_mzl.png?v=20260304" alt="escudo" className="w-8 h-8 object-contain brightness-0 invert opacity-50" />
-                    <div className="w-px h-6 bg-white/20" />
+                    <div className="w-10 h-10 bg-white rounded-lg p-1 flex items-center justify-center shadow-lg shrink-0">
+                        <img src="/logo_alcaldia_mzl.png?v=2026.03.04.12.13" alt="escudo" className="w-full h-full object-contain" />
+                    </div>
+                    <div className="w-px h-8 bg-white/20" />
                     <div className="flex flex-col">
                         <div className="flex items-center gap-2">
                             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
