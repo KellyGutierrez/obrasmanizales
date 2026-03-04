@@ -85,18 +85,23 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
                 </motion.div>
             </div>
 
-            {/* Central Branding Section */}
+            {/* Branding Header Section */}
             <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex flex-col items-center mt-12 mb-10 z-10"
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="w-full max-w-7xl flex items-center gap-6 mt-12 mb-12 z-10 px-6 md:px-12"
             >
-                <div className="w-28 h-28 bg-white rounded-[2rem] p-3 flex items-center justify-center shadow-[0_20px_40px_rgba(255,255,255,0.05)] mb-6 border border-white/10">
+                <div className="w-20 h-20 bg-white rounded-2xl p-2 flex items-center justify-center shadow-2xl border border-white/10 shrink-0">
                     <img src="/favicon.png" alt="Escudo Manizales" className="w-full h-full object-contain" />
                 </div>
-                <div className="text-center space-y-1">
-                    <p className="text-[12px] font-black uppercase tracking-[0.6em] text-white/40">Alcaldía de Manizales</p>
-                    <div className="w-12 h-1 bg-yellow-500 mx-auto rounded-full" />
+                <div className="flex flex-col gap-1.5 overflow-hidden">
+                    <p className="text-[18px] md:text-[28px] font-black uppercase tracking-tighter text-white whitespace-nowrap leading-none italic">
+                        Alcaldía de Manizales
+                    </p>
+                    <div className="flex gap-1 items-center">
+                        <div className="w-12 h-1 bg-yellow-500 rounded-full" />
+                        <p className="text-[8px] font-bold uppercase tracking-[0.3em] text-white/30 whitespace-nowrap">Portal Oficial de Obras Estratégicas</p>
+                    </div>
                 </div>
             </motion.div>
 
