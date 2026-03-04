@@ -66,26 +66,43 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
                 </div>
             </div>
 
-            {/* Floating Top Access */}
-            <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1 }}
-                className="absolute top-10 right-10 z-[50]"
-            >
-                <Link
-                    href="/login"
-                    className="flex items-center gap-3 bg-white/10 backdrop-blur-xl px-6 py-3 rounded-2xl border border-white/20 hover:bg-white/20 transition-all group"
+            {/* Floating Top Brand & Access */}
+            <div className="absolute top-8 left-8 right-8 flex justify-between items-start z-[50]">
+                {/* Brand Header */}
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex items-center gap-4 bg-white/5 backdrop-blur-xl px-5 py-3 rounded-2xl border border-white/10"
                 >
-                    <div className="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center group-hover:bg-white group-hover:text-[#0747a1] transition-all">
-                        <User size={18} />
+                    <div className="w-12 h-12 bg-white rounded-xl p-1 flex items-center justify-center shadow-lg">
+                        <img src="/favicon.png" alt="Escudo Manizales" className="w-full h-full object-contain" />
                     </div>
-                    <div>
-                        <p className="text-[8px] font-black uppercase tracking-widest opacity-60 leading-none mb-1">Portal Oficial</p>
-                        <p className="text-[10px] font-black uppercase tracking-widest">Acceso Institucional</p>
+                    <div className="hidden sm:block">
+                        <p className="text-[10px] font-black uppercase tracking-tighter text-white leading-none">Alcaldía de</p>
+                        <p className="text-[14px] font-black uppercase tracking-tighter text-white leading-tight">Manizales</p>
                     </div>
-                </Link>
-            </motion.div>
+                </motion.div>
+
+                {/* Login Access */}
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                >
+                    <Link
+                        href="/login"
+                        className="flex items-center gap-3 bg-white/10 backdrop-blur-xl px-6 py-3 rounded-2xl border border-white/20 hover:bg-white/20 transition-all group"
+                    >
+                        <div className="w-8 h-8 bg-white/20 rounded-xl flex items-center justify-center group-hover:bg-white group-hover:text-[#0747a1] transition-all">
+                            <User size={18} />
+                        </div>
+                        <div>
+                            <p className="text-[8px] font-black uppercase tracking-widest opacity-60 leading-none mb-1">Portal Oficial</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest">Acceso Institucional</p>
+                        </div>
+                    </Link>
+                </motion.div>
+            </div>
 
             {/* Header Blocks - Balanced Size */}
             <motion.div
@@ -179,13 +196,19 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
             </motion.div>
 
             {/* Footer Version */}
-            <div className="mt-16 py-10 flex flex-col items-center gap-2 opacity-20 relative z-10">
-                <div className="flex items-center gap-3 mb-1">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-                    <p className="text-[9px] font-black uppercase tracking-[0.5em] text-slate-400">Sistema Activo</p>
+            <div className="mt-16 py-10 flex flex-col items-center gap-3 opacity-30 relative z-10">
+                <div className="flex items-center gap-4">
+                    <img src="/favicon.png" alt="escudo" className="w-8 h-8 object-contain brightness-0 invert opacity-50" />
+                    <div className="w-px h-6 bg-white/20" />
+                    <div className="flex flex-col">
+                        <div className="flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                            <p className="text-[9px] font-black uppercase tracking-[0.5em] text-slate-400">Sistema Activo</p>
+                        </div>
+                        <p className="text-[11px] font-black uppercase tracking-[0.3em] text-blue-400/80 italic">GEOLOCALIZACIÓN MZL v2026.03.04</p>
+                    </div>
                 </div>
-                <p className="text-[11px] font-black uppercase tracking-[0.3em] text-blue-400/80 italic">GEOLOCALIZACIÓN MZL v2026.03.04</p>
-                <div className="w-24 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent mt-2" />
+                <div className="w-24 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
             </div>
         </div >
     );
