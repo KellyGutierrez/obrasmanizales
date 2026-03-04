@@ -27,6 +27,7 @@ export interface Project {
     endDate: string;
     status: 'Iniciado' | 'Planeación' | 'Estudios' | 'Entregado';
     description: string;
+    address: string;
     lat: number;
     lng: number;
 
@@ -62,6 +63,7 @@ export const projects: Project[] = [
         endDate: '2025-06-30',
         status: 'Iniciado',
         description: 'Construcción de dos puentes elevados para descongestionar el tráfico en la salida al norte de Manizales, mejorando la movilidad regional.',
+        address: 'Avenida Kevin Ángel con Calle 64',
         lat: 5.0845,
         lng: -75.5028,
         images: {
@@ -101,6 +103,7 @@ export const projects: Project[] = [
         endDate: '2024-01-20',
         status: 'Entregado',
         description: 'Modernización total del campo con grama sintética profesional, iluminación LED y cerramiento perimetral.',
+        address: 'Carrera 23 # 48-01',
         lat: 5.0501,
         lng: -75.4920,
         images: {
@@ -140,6 +143,7 @@ export const projects: Project[] = [
         endDate: '2027-04-30',
         status: 'Iniciado',
         description: 'Sistema masivo de transporte que unirá la Terminal de Transporte con las Universidades, mejorando la sostenibilidad.',
+        address: 'Cruce Villamaría - Sector Cámbulos',
         lat: 5.0560,
         lng: -75.4850,
         images: {
@@ -179,6 +183,7 @@ export const projects: Project[] = [
         endDate: '2024-02-15',
         status: 'Entregado',
         description: 'Renovación urbana a través de un megaproyecto educativo para la población vulnerable de San José.',
+        address: 'Calle 26 entre Carreras 16 y 17',
         lat: 5.0683,
         lng: -75.5186,
         images: {
@@ -219,6 +224,7 @@ export const projects: Project[] = [
         endDate: '2025-08-15',
         status: 'Iniciado',
         description: 'Ampliación de la unidad de urgencias y modernización de equipos quirúrgicos para la red de salud del oriente de la ciudad.',
+        address: 'Carrera 35 # 100-20',
         lat: 5.0350,
         lng: -75.4540,
         images: {
@@ -258,6 +264,7 @@ export const projects: Project[] = [
         endDate: '2024-04-30',
         status: 'Iniciado',
         description: 'Renovación de senderos, iluminación LED y zonas recreativas temáticas en el sector de la Avenida Santander.',
+        address: 'Avenida Santander - Frente a la U. Caldas',
         lat: 5.0640,
         lng: -75.4950,
         images: {
@@ -297,6 +304,7 @@ export const projects: Project[] = [
         endDate: '2026-03-20',
         status: 'Iniciado',
         description: 'Mantenimiento integral del sistema acústico, tramoya y restauración de la fachada de uno de los teatros más importantes del país.',
+        address: 'Carrera 22 con Calle 33',
         lat: 5.0680,
         lng: -75.5080,
         images: {
@@ -336,6 +344,7 @@ export const projects: Project[] = [
         endDate: '2026-04-30',
         status: 'Iniciado',
         description: 'Revitalización de la ladera occidental en Chipre. Incluye renovación de andenes, pérgolas, ciclorrutas y nuevos espacios de contemplación del atardecer.',
+        address: 'Avenida 12 de Octubre',
         lat: 5.0748,
         lng: -75.5295,
         images: {
@@ -372,6 +381,7 @@ export const projects: Project[] = [
         endDate: '2025-12-31',
         status: 'Iniciado',
         description: 'Estructura icónica de 40 metros en forma de medialuna con piso de vidrio, ubicada en el sector del Obelisco para potenciar el turismo.',
+        address: 'Sector El Obelisco - Chipre',
         lat: 5.0735,
         lng: -75.5310,
         images: {

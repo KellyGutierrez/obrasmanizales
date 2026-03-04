@@ -103,10 +103,11 @@ export default function ProjectPage() {
         doc.text('RESUMEN DE IDENTIDAD', 15, 70);
         autoTable(doc, {
             startY: 75,
-            head: [['Categoría', 'Comuna', 'Estado', 'Progreso']],
+            head: [['Categoría', 'Comuna', 'Dirección', 'Estado', 'Progreso']],
             body: [[
                 project.category,
                 project.commune,
+                project.address,
                 project.status,
                 `${project.progress}%`
             ]],
@@ -236,9 +237,9 @@ export default function ProjectPage() {
                                     <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-white shadow-lg ${project.status === 'Entregado' ? 'bg-emerald-500' : 'bg-blue-600'}`}>
                                         {project.status}
                                     </span>
-                                    <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500 text-xs font-bold">
-                                        <MapPin size={14} />
-                                        <span>Manizales, Colombia</span>
+                                    <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500 text-xs font-bold italic">
+                                        <MapPin size={14} className="text-[#0747a1]" />
+                                        <span>{project.address}</span>
                                     </div>
                                 </div>
                             </div>
