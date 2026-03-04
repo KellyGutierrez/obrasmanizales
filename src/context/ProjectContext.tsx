@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Project, projects as initialProjects } from '@/data/projects';
+import { getProjectsFromDB, saveProjectsToDB, getUsersFromDB, saveUsersToDB } from '@/utils/db';
 
 export interface User {
     username: string;
@@ -50,85 +51,47 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
         : allProjects;
 
     useEffect(() => {
-        const savedProjects = localStorage.getItem('mzl_projects');
-        const savedUsers = localStorage.getItem('mzl_users');
-        const savedUser = localStorage.getItem('mzl_current_user');
+        const loadInitialData = async () => {
+            const savedProjects = await getProjectsFromDB();
+            const savedUsers = await getUsersFromDB();
+            const savedUser = localStorage.getItem('mzl_current_user');
 
-        // Logic to merge or reset projects to ensure new static projects appear
-        if (savedProjects) {
-            try {
-                const parsed = JSON.parse(savedProjects);
-                // If the count is different or missing new IDs, we might want to refresh
-                // For now, let's force a refresh of static IDs to ensure Chipre appears
-                const projectIds = parsed.map((p: Project) => p.id);
+            if (savedProjects && savedProjects.length > 0) {
+                // Ensure new static projects appear
+                const projectIds = savedProjects.map((p: Project) => p.id);
                 const missingProjects = initialProjects.filter(p => !projectIds.includes(p.id));
-
-                if (missingProjects.length > 0) {
-                    setAllProjects([...parsed, ...missingProjects]);
-                } else {
-                    setAllProjects(parsed);
-                }
-            } catch (e) {
+                setAllProjects([...savedProjects, ...missingProjects]);
+            } else {
                 setAllProjects(initialProjects);
             }
-        } else {
-            setAllProjects(initialProjects);
-        }
 
-        if (savedUsers) {
-            try { setAllUsers(JSON.parse(savedUsers)); } catch (e) { }
-        }
-        if (savedUser) {
-            try { setCurrentUser(JSON.parse(savedUser)); } catch (e) { }
-        }
-        setIsInitialized(true);
+            if (savedUsers) {
+                setAllUsers(savedUsers);
+            }
+            if (savedUser) {
+                try { setCurrentUser(JSON.parse(savedUser)); } catch (e) { }
+            }
+            setIsInitialized(true);
+        };
+
+        loadInitialData();
     }, []);
-
-    // Helper: safe localStorage write that handles quota errors
-    const safeSetItem = (key: string, value: string): boolean => {
-        try {
-            localStorage.setItem(key, value);
-            return true;
-        } catch (e: any) {
-            if (e.name === 'QuotaExceededError' || e.code === 22) {
-                return false;
-            }
-            return false;
-        }
-    };
-
-    // Helper: strip Base64 images from projects to reduce size as fallback
-    const stripBase64Images = (projs: Project[]): Project[] => {
-        return projs.map(p => ({
-            ...p,
-            images: {
-                render: p.images.render?.startsWith('data:') ? '' : p.images.render,
-                current: p.images.current?.startsWith('data:') ? '' : p.images.current,
-            }
-        }));
-    };
 
     useEffect(() => {
         if (!isInitialized) return;
 
-        // Try saving full data (with images)
-        const projectsJson = JSON.stringify(allProjects);
-        const saved = safeSetItem('mzl_projects', projectsJson);
+        const saveData = async () => {
+            await saveProjectsToDB(allProjects);
+            await saveUsersToDB(allUsers);
 
-        if (!saved) {
-            // If quota exceeded, save without Base64 images to prevent crash
-            const stripped = JSON.stringify(stripBase64Images(allProjects));
-            safeSetItem('mzl_projects', stripped);
-            console.warn('localStorage quota exceeded: project images were not saved. Use URL links instead of file uploads.');
-        }
+            if (currentUser) {
+                localStorage.setItem('mzl_current_user', JSON.stringify(currentUser));
+            } else {
+                localStorage.removeItem('mzl_current_user');
+            }
+        };
 
-        safeSetItem('mzl_users', JSON.stringify(allUsers));
-
-        if (currentUser) {
-            safeSetItem('mzl_current_user', JSON.stringify(currentUser));
-        } else {
-            localStorage.removeItem('mzl_current_user');
-        }
+        saveData();
     }, [allProjects, allUsers, currentUser, isInitialized]);
 
     const login = (username: string, role: 'admin' | 'manager', name: string) => {
