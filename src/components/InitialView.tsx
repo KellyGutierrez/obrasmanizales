@@ -178,39 +178,14 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
                 ))}
             </motion.div>
 
-            {/* Footer System Taskbar Mockup */}
-            <div className="mt-16 flex items-center justify-between w-full max-w-7xl px-12 py-6 bg-white/10 backdrop-blur-3xl rounded-[2.5rem] border border-white/20 shadow-2xl relative z-10">
-                <div className="flex items-center gap-4">
-                    <div className="bg-white/20 p-3 rounded-2xl">
-                        <Globe size={24} className="opacity-80" />
-                    </div>
-                    <div>
-                        <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40">Sistema Activo</p>
-                        <p className="text-xs font-black uppercase tracking-widest text-[#90caf9]">GEOLOCALIZACIÓN MZL V2.4</p>
-                    </div>
+            {/* Footer Version */}
+            <div className="mt-16 py-10 flex flex-col items-center gap-2 opacity-20 relative z-10">
+                <div className="flex items-center gap-3 mb-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                    <p className="text-[9px] font-black uppercase tracking-[0.5em] text-slate-400">Sistema Activo</p>
                 </div>
-
-                <div className="flex gap-4">
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-                        <motion.div
-                            key={i}
-                            whileHover={{ scale: 1.25, y: -8, rotate: 5 }}
-                            className="w-12 h-12 rounded-2xl bg-gradient-to-br from-white via-slate-100 to-slate-200 shadow-2xl cursor-pointer border border-white/30 flex items-center justify-center text-blue-900/40"
-                        >
-                            <Command size={20} />
-                        </motion.div>
-                    ))}
-                </div>
-
-                <div className="flex items-center gap-4 text-right">
-                    <div>
-                        <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40">Uptime</p>
-                        <p className="text-xs font-black uppercase tracking-widest text-emerald-400">99.9% LIVE ACCESS</p>
-                    </div>
-                    <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                    </div>
-                </div>
+                <p className="text-[11px] font-black uppercase tracking-[0.3em] text-blue-400/80 italic">GEOLOCALIZACIÓN MZL v2026.03.04</p>
+                <div className="w-24 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent mt-2" />
             </div>
         </div >
     );
