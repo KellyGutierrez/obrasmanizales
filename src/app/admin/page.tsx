@@ -17,7 +17,9 @@ import {
     Briefcase,
     Mail,
     X,
-    Globe
+    Globe,
+    Image,
+    Upload
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -101,6 +103,23 @@ export default function AdminDashboard() {
             updateLandingCategory(editingCategory.index, catForm);
             setEditingCategory(null);
             showToast('Categoría actualizada exitosamente', 'success');
+        }
+    };
+
+    const handleCatFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            // Check file size (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                showToast('La imagen no debe superar 2MB', 'error');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64 = reader.result as string;
+                setCatForm(prev => ({ ...prev, image: base64 }));
+            };
+            reader.readAsDataURL(file);
         }
     };
 
@@ -584,25 +603,47 @@ export default function AdminDashboard() {
 
                                 <div className="space-y-4">
                                     <div className="flex items-center justify-between pl-2">
-                                        <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Imagen de Fondo (URL o Base64)</label>
-                                        <span className="text-[9px] font-black uppercase tracking-widest text-[#0747a1]">Vista Previa</span>
+                                        <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Imagen de Fondo</label>
+                                        <span className="text-[9px] font-black uppercase tracking-widest text-[#0747a1]">Selecciona una opción</span>
                                     </div>
-                                    <div className="flex gap-4 items-start">
-                                        <div className="w-24 h-24 rounded-2xl bg-slate-100 dark:bg-slate-800 overflow-hidden border border-slate-200 dark:border-slate-700 flex-shrink-0">
-                                            <img src={catForm.image} className="w-full h-full object-cover" alt="preview" />
-                                        </div>
-                                        <div className="flex-1 space-y-3">
-                                            <textarea
-                                                required
-                                                rows={3}
-                                                value={catForm.image}
-                                                onChange={(e) => setCatForm({ ...catForm, image: e.target.value })}
-                                                placeholder="Pega la URL de la imagen aquí..."
-                                                className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-800 text-[10px] font-mono leading-tight"
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {/* Subir Archivo */}
+                                        <div className="relative group/upload">
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={handleCatFileChange}
+                                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                             />
-                                            <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Tip: Usa Picsum o Cloudinary para URL estables</p>
+                                            <div className="w-full py-8 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl flex flex-col items-center justify-center gap-2 group-hover/upload:border-[#0747a1]/30 group-hover/upload:bg-blue-50/50 dark:group-hover/upload:bg-blue-900/10 transition-all">
+                                                <Upload size={24} className="text-slate-400 group-hover/upload:text-[#0747a1]" />
+                                                <span className="text-[8px] font-black uppercase tracking-widest text-slate-400 group-hover/upload:text-slate-600">Subir desde PC</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Vista Previa y URL */}
+                                        <div className="flex gap-4 items-center bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
+                                            <div className="w-20 h-20 rounded-xl bg-slate-200 dark:bg-slate-900 overflow-hidden flex-shrink-0 shadow-inner">
+                                                {catForm.image ? (
+                                                    <img src={catForm.image} className="w-full h-full object-cover" alt="preview" />
+                                                ) : (
+                                                    <div className="w-full h-full flex items-center justify-center text-slate-400"><Image size={24} /></div>
+                                                )}
+                                            </div>
+                                            <div className="flex-1 space-y-2">
+                                                <p className="text-[8px] font-black uppercase tracking-widest text-[#0747a1]">O pega una URL</p>
+                                                <input
+                                                    type="text"
+                                                    value={catForm.image?.startsWith('data:') ? 'Imagen cargada localmente' : catForm.image}
+                                                    onChange={(e) => setCatForm({ ...catForm, image: e.target.value })}
+                                                    placeholder="https://ejemplo.com/foto.jpg"
+                                                    className="w-full px-3 py-2 bg-white dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-800 text-[10px] font-medium"
+                                                />
+                                            </div>
                                         </div>
                                     </div>
+                                    <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest text-right">Tamaño máx: 2MB | Formatos: JPG, PNG, WEBP</p>
                                 </div>
 
                                 <div className="flex gap-4 pt-4">
