@@ -74,8 +74,8 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
                     animate={{ opacity: 1, x: 0 }}
                     className="flex items-center gap-5 group cursor-default"
                 >
-                    <div className="w-16 h-16 bg-white rounded-2xl p-2 flex items-center justify-center shadow-xl border border-white/10 transition-transform group-hover:scale-105">
-                        <img src="/favicon.png" alt="Escudo Manizales" className="w-full h-full object-contain" />
+                    <div className="w-16 h-16 bg-white rounded-2xl p-1.5 flex items-center justify-center shadow-xl border border-white/10 transition-transform group-hover:scale-105">
+                        <img src="/logo_alcaldia_mzl.png?v=20260304" alt="Escudo Manizales" className="w-full h-full object-contain" />
                     </div>
                     <div className="flex flex-col justify-center pt-1.5">
                         <p className="text-base md:text-2xl font-black uppercase tracking-tighter text-white leading-none italic">
@@ -196,7 +196,7 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
             {/* Footer Version */}
             <div className="mt-16 py-10 flex flex-col items-center gap-3 opacity-30 relative z-10">
                 <div className="flex items-center gap-4">
-                    <img src="/favicon.png" alt="escudo" className="w-8 h-8 object-contain brightness-0 invert opacity-50" />
+                    <img src="/logo_alcaldia_mzl.png?v=20260304" alt="escudo" className="w-8 h-8 object-contain brightness-0 invert opacity-50" />
                     <div className="w-px h-6 bg-white/20" />
                     <div className="flex flex-col">
                         <div className="flex items-center gap-2">
