@@ -16,7 +16,8 @@ import {
     Upload,
     RefreshCw,
     Building2,
-    User
+    User,
+    ExternalLink
 } from 'lucide-react';
 import { Project, ProjectStage } from '@/data/projects';
 import { useProjects } from '@/context/ProjectContext';
@@ -56,6 +57,7 @@ export default function ProjectForm({ initialData, onSave, onCancel }: ProjectFo
         endDate: '',
         status: 'Iniciado',
         description: '',
+        address: '',
         lat: 5.0688,
         lng: -75.5173,
         images: { render: '', current: '' },
@@ -254,21 +256,51 @@ export default function ProjectForm({ initialData, onSave, onCancel }: ProjectFo
                                 className="w-full px-6 py-5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-bold text-slate-800 dark:text-white"
                             />
                         </div>
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 pl-4">Latitud</label>
-                            <input
-                                type="number" step="any" name="lat"
-                                value={formData.lat} onChange={handleChange}
-                                className="w-full px-6 py-5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-bold text-slate-800 dark:text-white"
-                            />
+                        <div className="col-span-full space-y-2">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 pl-4">Dirección Exacta</label>
+                            <div className="relative">
+                                <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+                                <input
+                                    name="address"
+                                    value={formData.address}
+                                    onChange={handleChange}
+                                    placeholder="Ej: Carrera 23 # 45-12 o Avenida Santander con Calle 50"
+                                    className="w-full pl-16 pr-6 py-5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-bold text-slate-800 dark:text-white"
+                                />
+                            </div>
+                            <p className="text-[9px] font-bold text-slate-400 uppercase mt-2 pl-4 italic">* El mapa usa coordenadas (Lat/Lng) para ubicar el marcador. La dirección es solo informativa.</p>
                         </div>
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 pl-4">Longitud</label>
-                            <input
-                                type="number" step="any" name="lng"
-                                value={formData.lng} onChange={handleChange}
-                                className="w-full px-6 py-5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-bold text-slate-800 dark:text-white"
-                            />
+
+                        <div className="space-y-4 p-6 bg-slate-50 dark:bg-slate-800/30 rounded-[2rem] border border-slate-100 dark:border-slate-800">
+                            <div className="flex flex-col gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 pl-4">Latitud</label>
+                                    <input
+                                        type="number" step="any" name="lat"
+                                        value={formData.lat} onChange={handleChange}
+                                        className="w-full px-6 py-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-bold text-slate-800 dark:text-white"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 pl-4">Longitud</label>
+                                    <input
+                                        type="number" step="any" name="lng"
+                                        value={formData.lng} onChange={handleChange}
+                                        className="w-full px-6 py-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 text-sm font-bold text-slate-800 dark:text-white"
+                                    />
+                                </div>
+                            </div>
+                            <div className="pt-2">
+                                <a
+                                    href={`https://www.google.com/maps/search/Manizales+${formData.address}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[9px] font-black text-blue-600 hover:text-blue-700 uppercase tracking-widest flex items-center gap-2"
+                                >
+                                    <ExternalLink size={12} /> Buscar Coordenadas en Google Maps
+                                </a>
+                                <p className="text-[8px] text-slate-400 uppercase mt-1">Tip: Click derecho en el mapa de Google -&gt; Copiar coordenadas</p>
+                            </div>
                         </div>
                     </div>
                 )}
