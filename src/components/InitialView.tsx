@@ -77,8 +77,8 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
                     <div className="w-16 h-16 bg-white rounded-2xl p-2 flex items-center justify-center shadow-xl border border-white/10 transition-transform group-hover:scale-105">
                         <img src="/favicon.png" alt="Escudo Manizales" className="w-full h-full object-contain" />
                     </div>
-                    <div className="flex flex-col justify-center">
-                        <p className="text-base md:text-2xl font-black uppercase tracking-tighter text-white leading-[0.8] italic">
+                    <div className="flex flex-col justify-center pt-1.5">
+                        <p className="text-base md:text-2xl font-black uppercase tracking-tighter text-white leading-none italic">
                             Alcaldía de Manizales
                         </p>
                         <p className="text-[8px] font-bold uppercase tracking-[0.4em] text-white/30 mt-2">Portal Oficial de Obras Estratégicas</p>
