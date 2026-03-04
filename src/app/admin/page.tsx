@@ -16,26 +16,30 @@ import {
     ShieldCheck,
     Briefcase,
     Mail,
-    X
+    X,
+    Globe
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useProjects } from '@/context/ProjectContext';
+import { useProjects, User, LandingCategory } from '@/context/ProjectContext';
 import { useToast } from '@/context/ToastContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import ConfirmationModal from '@/components/ui/ConfirmationModal';
 
 export default function AdminDashboard() {
-    const { projects, allProjects, deleteProject, currentUser, logout, allUsers, deleteUser, updateUser } = useProjects();
+    const { projects, allProjects, deleteProject, currentUser, logout, allUsers, deleteUser, updateUser, landingCategories, updateLandingCategory } = useProjects();
     const { showToast } = useToast();
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState('');
-    const [activeTab, setActiveTab] = useState<'projects' | 'users'>('projects');
+    const [activeTab, setActiveTab] = useState<'projects' | 'users' | 'landing'>('projects');
+    const [selectedCategory, setSelectedCategory] = useState<string>('all');
     const [isDeleting, setIsDeleting] = useState<string | null>(null);
     const [isDeletingUser, setIsDeletingUser] = useState<string | null>(null);
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-    const [editingUser, setEditingUser] = useState<any | null>(null);
-    const [userForm, setUserForm] = useState({ name: '', username: '', role: 'manager' });
+    const [editingUser, setEditingUser] = useState<User | null>(null);
+    const [editingCategory, setEditingCategory] = useState<{ index: number, cat: LandingCategory } | null>(null);
+    const [userForm, setUserForm] = useState({ name: '', role: 'manager' as 'admin' | 'manager', username: '' });
+    const [catForm, setCatForm] = useState<LandingCategory>({ title: '', subtitle: '', image: '', id: '' });
 
     React.useEffect(() => {
         if (!currentUser) router.push('/login');
@@ -81,9 +85,23 @@ export default function AdminDashboard() {
         }
     };
 
-    const handleEditUser = (user: any) => {
+    const handleEditUser = (user: User) => {
         setEditingUser(user);
-        setUserForm({ name: user.name, username: user.username, role: user.role });
+        setUserForm({ name: user.name, role: user.role, username: user.username });
+    };
+
+    const handleEditCategory = (index: number, cat: LandingCategory) => {
+        setEditingCategory({ index, cat });
+        setCatForm({ ...cat });
+    };
+
+    const confirmUpdateCategory = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (editingCategory) {
+            updateLandingCategory(editingCategory.index, catForm);
+            setEditingCategory(null);
+            showToast('Categoría actualizada exitosamente', 'success');
+        }
     };
 
     const confirmUpdateUser = (e: React.FormEvent) => {
@@ -144,6 +162,16 @@ export default function AdminDashboard() {
                                 >
                                     <div className="flex items-center gap-2">
                                         <UsersIcon size={14} /> Responsables
+                                    </div>
+                                </button>
+                            )}
+                            {currentUser.role === 'admin' && (
+                                <button
+                                    onClick={() => setActiveTab('landing')}
+                                    className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'landing' ? 'bg-white dark:bg-slate-700 text-[#0747a1] shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <Globe size={14} /> Pantalla Principal
                                     </div>
                                 </button>
                             )}
@@ -293,7 +321,7 @@ export default function AdminDashboard() {
                             </div>
                         </div>
                     </>
-                ) : (
+                ) : activeTab === 'users' ? (
                     <>
                         {/* Users Management Tab */}
                         <div className="flex flex-col md:flex-row gap-4 mb-10 justify-between items-center">
@@ -313,7 +341,7 @@ export default function AdminDashboard() {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {filteredUsers.map((user) => (
+                            {(searchTerm ? allUsers.filter(u => u.name.toLowerCase().includes(searchTerm.toLowerCase())) : allUsers).map((user) => (
                                 <motion.div
                                     key={user.username}
                                     initial={{ opacity: 0, y: 20 }}
@@ -365,23 +393,45 @@ export default function AdminDashboard() {
                                             </button>
                                         )}
                                     </div>
-
-                                    {/* Decoration */}
                                     <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#0747a1]/5 rounded-full blur-2xl group-hover:bg-[#0747a1]/10 transition-all" />
                                 </motion.div>
                             ))}
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        {/* Landing Page Management Tab */}
+                        <div className="flex flex-col md:flex-row gap-4 mb-10 justify-between items-center">
+                            <div>
+                                <h2 className="text-3xl font-black text-slate-800 dark:text-white tracking-tighter uppercase italic">Pantalla Principal</h2>
+                                <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mt-1">Gestión de Categorías y Visuales del Inicio</p>
+                            </div>
+                        </div>
 
-                            {/* Add User Card */}
-                            <motion.button
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                className="bg-slate-50 dark:bg-slate-900/30 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-[2.5rem] p-8 flex flex-col items-center justify-center gap-4 text-slate-400 hover:text-[#0747a1] hover:border-[#0747a1]/30 transition-all group min-h-[300px]"
-                            >
-                                <div className="w-16 h-16 rounded-[1.5rem] border-2 border-dashed border-current flex items-center justify-center group-hover:scale-110 transition-transform">
-                                    <Plus size={32} />
-                                </div>
-                                <span className="text-[10px] font-black uppercase tracking-widest">Registrar Nuevo Responsable</span>
-                            </motion.button>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            {landingCategories.map((cat, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden border border-slate-100 dark:border-slate-800 shadow-xl group relative"
+                                >
+                                    <div className="h-32 relative overflow-hidden">
+                                        <img src={cat.image} alt={cat.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                                        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
+                                        <button
+                                            onClick={() => handleEditCategory(i, cat)}
+                                            className="absolute top-4 right-4 w-10 h-10 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center text-[#0747a1] shadow-lg opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all active:scale-95"
+                                        >
+                                            <Edit2 size={16} />
+                                        </button>
+                                    </div>
+                                    <div className="p-5 text-center">
+                                        <h3 className="text-[#0747a1] font-black text-xs uppercase tracking-tight mb-0.5">{cat.title}</h3>
+                                        <p className="text-slate-400 text-[9px] font-bold uppercase tracking-widest truncate">{cat.subtitle}</p>
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
                     </>
                 )}
@@ -475,7 +525,99 @@ export default function AdminDashboard() {
                                         type="submit"
                                         className="flex-1 py-4 bg-[#0747a1] text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-500/20"
                                     >
-                                        Actualizar
+                                        Guardar Cambios
+                                    </button>
+                                </div>
+                            </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {/* Category Edit Modal */}
+            <AnimatePresence>
+                {editingCategory && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-950/40 backdrop-blur-sm">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden border border-slate-100 dark:border-slate-800"
+                        >
+                            <div className="bg-[#0747a1] p-8 text-white relative">
+                                <h3 className="text-xl font-black uppercase tracking-tighter italic">Editar Categoría de Inicio</h3>
+                                <p className="text-[10px] font-black uppercase tracking-widest opacity-60 mt-1">Personaliza el visual de la landing page</p>
+                                <button onClick={() => setEditingCategory(null)} className="absolute top-8 right-8 text-white/50 hover:text-white"><X size={20} /></button>
+                            </div>
+                            <form onSubmit={confirmUpdateCategory} className="p-8 space-y-6">
+                                <div className="grid grid-cols-2 gap-6">
+                                    <div className="space-y-2">
+                                        <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 pl-2">Título Principal</label>
+                                        <input
+                                            required
+                                            value={catForm.title}
+                                            onChange={(e) => setCatForm({ ...catForm, title: e.target.value })}
+                                            className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-800 text-xs font-bold"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 pl-2">Vínculo Categoría (Filter ID)</label>
+                                        <input
+                                            required
+                                            value={catForm.id}
+                                            onChange={(e) => setCatForm({ ...catForm, id: e.target.value })}
+                                            placeholder="Ej: Deporte, Educación..."
+                                            className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-800 text-xs font-bold"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 pl-2">Subtítulo Descriptivo</label>
+                                    <input
+                                        required
+                                        value={catForm.subtitle}
+                                        onChange={(e) => setCatForm({ ...catForm, subtitle: e.target.value })}
+                                        className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-800 text-xs font-bold"
+                                    />
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between pl-2">
+                                        <label className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Imagen de Fondo (URL o Base64)</label>
+                                        <span className="text-[9px] font-black uppercase tracking-widest text-[#0747a1]">Vista Previa</span>
+                                    </div>
+                                    <div className="flex gap-4 items-start">
+                                        <div className="w-24 h-24 rounded-2xl bg-slate-100 dark:bg-slate-800 overflow-hidden border border-slate-200 dark:border-slate-700 flex-shrink-0">
+                                            <img src={catForm.image} className="w-full h-full object-cover" alt="preview" />
+                                        </div>
+                                        <div className="flex-1 space-y-3">
+                                            <textarea
+                                                required
+                                                rows={3}
+                                                value={catForm.image}
+                                                onChange={(e) => setCatForm({ ...catForm, image: e.target.value })}
+                                                placeholder="Pega la URL de la imagen aquí..."
+                                                className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-800 text-[10px] font-mono leading-tight"
+                                            />
+                                            <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Tip: Usa Picsum o Cloudinary para URL estables</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex gap-4 pt-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => setEditingCategory(null)}
+                                        className="flex-1 py-4 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em]"
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="flex-1 py-4 bg-[#0747a1] text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl shadow-blue-500/20"
+                                    >
+                                        Actualizar Visual
                                     </button>
                                 </div>
                             </form>

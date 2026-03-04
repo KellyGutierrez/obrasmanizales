@@ -91,3 +91,35 @@ export const getUsersFromDB = async (): Promise<any[] | null> => {
         return null;
     }
 };
+
+export const saveLandingCategoriesToDB = async (categories: any[]) => {
+    try {
+        const db = await initDB();
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        store.put(categories, 'landing_categories');
+        return new Promise<void>((resolve, reject) => {
+            tx.oncomplete = () => resolve();
+            tx.onerror = () => reject(tx.error);
+        });
+    } catch (error) {
+        console.error('Failed to save landing categories to IndexedDB:', error);
+    }
+};
+
+export const getLandingCategoriesFromDB = async (): Promise<any[] | null> => {
+    try {
+        const db = await initDB();
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const store = tx.objectStore(STORE_NAME);
+        const request = store.get('landing_categories');
+
+        return new Promise((resolve, reject) => {
+            request.onsuccess = () => resolve(request.result || null);
+            request.onerror = () => reject(request.error);
+        });
+    } catch (error) {
+        console.error('Failed to get landing categories from IndexedDB:', error);
+        return null;
+    }
+};

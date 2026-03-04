@@ -4,28 +4,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Search, BarChart2, Globe, Command, ShieldCheck, User, Settings as Gear, Plus } from 'lucide-react';
 import Link from 'next/link';
+import { useProjects } from '@/context/ProjectContext';
 
 interface InitialViewProps {
     onEnterDashboard: (categoryId?: string, mode?: 'map' | 'list', query?: string) => void;
 }
 
-const CATEGORIES = [
-    { title: 'Escenarios Deportivos', subtitle: 'Proyectos deportivos y recreativos', image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80', id: 'Deporte' },
-    { title: 'Megacolegios', subtitle: 'Tecnología educativa de punta', image: 'https://images.unsplash.com/photo-1541339907198-e08756ebafe3?w=800&q=80', id: 'Educación' },
-    { title: 'Jardines Mzl', subtitle: 'Educación y desarrollo infantil', image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80', id: 'Educación' },
-    { title: 'Parques y Ornato', subtitle: 'Espacios verdes de recreación', image: 'https://images.unsplash.com/photo-1585938389612-a552a28d6914?w=800&q=80', id: 'Parques' },
-    { title: 'Centros Culturales', subtitle: 'Cultura, museos y música local', image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80', id: 'Cultura' },
-    { title: 'Estadio Palogrande', subtitle: 'Unidad deportiva emblemática', image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80', id: 'Deporte' },
-    { title: 'Cable Aéreo L3', subtitle: 'Movilidad sostenible de alta capacidad', image: 'https://images.unsplash.com/photo-1494522358652-f30e63a60317?w=800&q=80', id: 'Transporte' },
-    { title: 'Vía Los Cedros', subtitle: 'Solución vial estratégica norte', image: 'https://images.unsplash.com/photo-1545143333-11b2724c9d19?w=800&q=80', id: 'Vial' },
-    { title: 'Seguridad y CAI', subtitle: 'Fortalecimiento de la seguridad ciudadana', image: 'https://images.unsplash.com/photo-1555854816-802f188095e4?w=800&q=80', id: 'Seguridad' },
-    { title: 'Salud de la Enea', subtitle: 'Red de hospitales municipal', image: 'https://images.unsplash.com/photo-1586773860418-d319ebb274e1?w=800&q=80', id: 'Salud' },
-    { title: 'Saneamiento PTAR', subtitle: 'Infraestructura ambiental crítica', image: 'https://images.unsplash.com/photo-1536697246747-e23a64150ba7?w=800&q=80', id: 'Saneamiento' },
-    { title: 'Teatro Fundadores', subtitle: 'Renovación de espacios icónicos', image: 'https://images.unsplash.com/photo-1503095396549-80705bc0607a?w=800&q=80', id: 'Cultura' },
-    { title: 'Intercambiadores', subtitle: 'Puentes y conectividad urbana', image: 'https://images.unsplash.com/photo-1545143333-11b2724c9d19?w=800&q=80', id: 'Vial' },
-    { title: 'Canchas Sintéticas', subtitle: 'Grama profesional en barrios', image: 'https://images.unsplash.com/photo-1526232761682-d26e03ac148e?w=800&q=80', id: 'Deporte' },
-    { title: 'Pista BMX Aranjuez', subtitle: 'Deportes de alto rendimiento', image: 'https://images.unsplash.com/photo-1544191143-693630650949?w=800&q=80', id: 'Deporte' },
-];
+// Removido CATEGORIES estático
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -48,6 +33,7 @@ const itemVariants = {
 };
 
 export default function InitialView({ onEnterDashboard }: InitialViewProps) {
+    const { landingCategories } = useProjects();
     return (
         <div className="min-h-screen bg-[#0b0f1a] text-white flex flex-col items-center p-6 md:p-12 overflow-hidden font-outfit relative">
 
@@ -168,7 +154,7 @@ export default function InitialView({ onEnterDashboard }: InitialViewProps) {
                 animate="visible"
                 className="w-full max-w-[105rem] grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 z-10"
             >
-                {CATEGORIES.map((cat, i) => (
+                {landingCategories.map((cat, i) => (
                     <motion.div
                         key={i}
                         variants={itemVariants}
