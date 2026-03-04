@@ -18,11 +18,9 @@ export const metadata: Metadata = {
   title: "Obras Manizales | Visor Estratégico",
   description: "Portal de seguimiento y transparencia de obras públicas de la ciudad de Manizales.",
   icons: {
-    icon: [
-      { url: '/favicon.png', type: 'image/png' },
-    ],
-    shortcut: '/favicon.png',
-    apple: '/favicon.png',
+    icon: '/favicon.png?v=2',
+    shortcut: '/favicon.png?v=2',
+    apple: '/favicon.png?v=2',
   },
 };
 
